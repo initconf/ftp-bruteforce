@@ -17,6 +17,8 @@ export {
 		pass: set[string]; 
 		bruteforcer: bool &default=F ; 
 	} ; 
+
+	global fail_threshold = 5 ; 
 		
 	global expire_bruteforcer_table: function(t: table[addr] of user_pass, src: addr ): interval ; 
 
@@ -64,7 +66,7 @@ event ftp_request(c: connection, command: string, arg: string) &priority=5
 		else 
 			add bruteforcer_table[src]$pass[arg]; 
 		
-		if ( (! bruteforcer_table[src]$bruteforcer) && (|bruteforcer_table[src]$user| > 3 || |bruteforcer_table[src]$pass| > 3 )) 
+		if ( (! bruteforcer_table[src]$bruteforcer) && (|bruteforcer_table[src]$user| > fail_threshold || |bruteforcer_table[src]$pass| > fail_threshold )) 
 		{ 
 			bruteforcer_table[src]$bruteforcer = T ; 	
                 	local msg = fmt ("FTP bruteforcer : %s, %s, pass: %s", src, |bruteforcer_table[src]$user|, |bruteforcer_table[src]$pass|); 
