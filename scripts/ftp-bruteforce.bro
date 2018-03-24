@@ -63,7 +63,7 @@ event ftp_request(c: connection, command: string, arg: string) &priority=5
 
 		if (command == "USER" ) 
 			add bruteforcer_table[src]$user[arg] ; 
-		else 
+		else if (command == "PASS")  
 			add bruteforcer_table[src]$pass[arg]; 
 		
 		if ( (! bruteforcer_table[src]$bruteforcer) && (|bruteforcer_table[src]$user| > fail_threshold || |bruteforcer_table[src]$pass| > fail_threshold )) 
