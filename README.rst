@@ -1,6 +1,7 @@
 =================================================================================
 Simple policy to detect FTP bruteforcers so that we can block those 
 =================================================================================
+[ Note this script is not clusterized yet ] 
 
 Following functionality are provided by the script
 --------------------------------------------------
