@@ -21,23 +21,35 @@ export {
 	global fail_threshold = 5 ; 
 		
 	global expire_bruteforcer_table: function(t: table[addr] of user_pass, src: addr ): interval ; 
-
 	global bruteforcer_table: table[addr] of user_pass &create_expire=1 hrs &expire_func=expire_bruteforcer_table ; 
 } 
 
+function is_ftp_bruteforcer(src: addr): bool 
+	{ 
+	if ( (! bruteforcer_table[src]$bruteforcer) && (|bruteforcer_table[src]$user| > fail_threshold || |bruteforcer_table[src]$pass| > fail_threshold ))
+	 	return T ;
+
+	return F ;
+	} 
+
+
 hook Notice::policy(n: Notice::Info)
-  {
+{
   if ( n$note == FTP::Bruteforcer)
     add n$actions[Notice::ACTION_DROP];
-  }
+}
 
 function expire_bruteforcer_table(t: table[addr] of user_pass, src: addr): interval
 {
-
-	local msg = fmt ("FTP bruteforcer : source: %s, Users tried: %s, number Password tried: %s", src, |t[src]$user|, |t[src]$pass|);
-	NOTICE([$note=BruteforceSummary, $src=src, $msg=msg]);
+	#print fmt ("inside expire: %s", t[src]); 
+	if (t[src]$bruteforcer) 
+	{ 
+		local msg = fmt ("FTP bruteforcer : source: %s, Users tried: %s, number Password tried: %s", src, |t[src]$user|, |t[src]$pass|);
+		NOTICE([$note=BruteforceSummary, $src=src, $msg=msg]);
+	} 
 	return 0 secs;
 } 
+
 
 event ftp_request(c: connection, command: string, arg: string) &priority=5
 { 
@@ -58,7 +70,6 @@ event ftp_request(c: connection, command: string, arg: string) &priority=5
 			local p: set[string]; 
 			local up: user_pass ; 
 			bruteforcer_table[src]=up ; 
-			
 		} 
 
 		if (command == "USER" ) 
@@ -66,10 +77,10 @@ event ftp_request(c: connection, command: string, arg: string) &priority=5
 		else if (command == "PASS")  
 			add bruteforcer_table[src]$pass[arg]; 
 		
-		if ( (! bruteforcer_table[src]$bruteforcer) && (|bruteforcer_table[src]$user| > fail_threshold || |bruteforcer_table[src]$pass| > fail_threshold )) 
+		if ( is_ftp_bruteforcer(src)) 
 		{ 
 			bruteforcer_table[src]$bruteforcer = T ; 	
-                	local msg = fmt ("FTP bruteforcer : %s, %s, pass: %s", src, |bruteforcer_table[src]$user|, |bruteforcer_table[src]$pass|); 
+                	local msg = fmt ("FTP bruteforcer: %s, username attempted: %s, password attempted: %s", src, |bruteforcer_table[src]$user|, |bruteforcer_table[src]$pass|); 
 			NOTICE([$note=Bruteforcer, $conn=c, $msg=msg]);
 		} 
 	} 
