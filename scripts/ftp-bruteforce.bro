@@ -46,11 +46,9 @@ function is_ftp_bruteforcer(src: addr): bool
 		)
 	{ 
 		return T ; 
-	}
-		
+	}	
 	return F ;
 	} 
-
 
 hook Notice::policy(n: Notice::Info)
 	{
@@ -70,7 +68,6 @@ function expire_bruteforcer_table(t: table[addr] of user_pass, src: addr): inter
 	} 
 	return 0 secs;
 	} 
-
 
 event ftp_request(c: connection, command: string, arg: string) &priority=5
 	{ 
