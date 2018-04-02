@@ -14,7 +14,7 @@ Installation
 ------------
 	bro-pkg install bro/initconf/ftp-bruteforce 
 	or
-	@load ftp-bruteforce/scripts 
+	@load ftp-bruteforce
 
 
 Detailed Notes:
@@ -35,13 +35,12 @@ Example notices:
 ***************************
 ::
 
-1519050213.385221       CP5puj4I8PtEU4qzYg      54.204.121.138  49753   132.108.133.158 21      -       -       -       tcp     FTP::Bruteforcer        FTP bruteforcer : 54.204.121.138, 4, pass: 1    -       54.204.121.138  132.108.133.158 21      -       bro     Notice::ACTION_DROP,Notice::ACTION_LOG  3600.000000  F       -       -       -       -       -
+```1519050213.385221       CP5puj4I8PtEU4qzYg      54.204.121.138  49753   132.108.133.158 21      -       -       -       tcp     FTP::Bruteforcer        FTP bruteforcer : 54.204.121.138, 4, pass: 1    -       54.204.121.138  132.108.133.158 21      -       bro     Notice::ACTION_DROP,Notice::ACTION_LOG  3600.000000  F       -       -       -       -       -```
 
 Example Summary Notice: 
 ***************************
 ::
 
-1519334266.646234       -       -       -       -       -       -       -       -       -       FTP::BruteforceSummary  FTP bruteforcer : source: 54.204.121.138, Users tried: 12, number Password tried: 715   -       54.204.121.138  -       -       -       bro     Notice::ACTION_LOG      3600.000000     F   --       -       -       -
-
+```1519334266.646234       -       -       -       -       -       -       -       -       -       FTP::BruteforceSummary  FTP bruteforcer : source: 54.204.121.138, Users tried: 12, number Password tried: 715   -       54.204.121.138  -       -       -       bro     Notice::ACTION_LOG      3600.000000     F   --       -       -       -``` 
 
 
