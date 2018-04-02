@@ -27,7 +27,8 @@ Heuristics  are simple: check for
 
 This should generate following Kinds of notices:
 
-	- 
+	- FTP::Bruteforcer 
+    - FTP::BruteforceSummary 
 
 Example notice: 
 ***************************
