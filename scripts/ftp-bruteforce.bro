@@ -74,7 +74,7 @@ event ftp_request(c: connection, command: string, arg: string) &priority=5
 	local src = c$id$orig_h ; 
 	local dst = c$id$resp_h ;
 
-	if (src in Site::local_nets()) 
+	if (src in Site::local_nets) 
 		return ;
 
 	if ( command == "USER" || command == "PASS" )
